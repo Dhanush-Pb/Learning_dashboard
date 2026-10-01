@@ -28,16 +28,28 @@ class LoginController extends GetxController {
       return false;
     }
 
-    if (passwordController.value.isEmpty) {
-      errorMessage.value = 'Please enter your password';
-      return false;
-    }
+ if (passwordController.value.isEmpty) {
+  errorMessage.value = 'Please enter your password';
+  return false;
+}
 
-    if (passwordController.value.length < 6) {
-      errorMessage.value =
-          'Password must be at least 6 characters';
-      return false;
-    }
+if (passwordController.value.length < 6) {
+  errorMessage.value =
+      'Password must be at least 6 characters';
+  return false;
+}
+
+if (!RegExp(r'[A-Z]').hasMatch(passwordController.value)) {
+  errorMessage.value =
+      'Password must contain at least one uppercase letter';
+  return false;
+}
+
+if (!RegExp(r'[0-9]').hasMatch(passwordController.value)) {
+  errorMessage.value =
+      'Password must contain at least one number';
+  return false;
+}
 
     isLoading.value = true;
 

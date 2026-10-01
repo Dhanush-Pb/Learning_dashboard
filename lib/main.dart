@@ -9,8 +9,7 @@ import 'data/datasources/course_local_data_source.dart';
 import 'data/repositories/course_repository_impl.dart';
 
 import 'presentation/dashboard/dashboard_controller.dart';
-import 'presentation/dashboard/dashboard_page.dart';
-import 'presentation/login/login_page.dart';
+import 'presentation/splash/splash_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,9 +20,11 @@ void main() async {
 
   final localDataSource = CourseLocalDataSource();
 
-  final cacheDataSource = CourseCacheDataSource(prefs);
-
-  final CourseRepository repository = CourseRepositoryImpl(
+  final cacheDataSource =
+      CourseCacheDataSource(prefs);
+Get.put<AuthLocalDataSource>(authDataSource);
+  final CourseRepository repository =
+      CourseRepositoryImpl(
     localDataSource: localDataSource,
     cacheDataSource: cacheDataSource,
   );
@@ -34,23 +35,18 @@ void main() async {
     ),
   );
 
-  final isLoggedIn = authDataSource.isLoggedIn;
-
   runApp(
     LearningDashboardApp(
-      isLoggedIn: isLoggedIn,
       authDataSource: authDataSource,
     ),
   );
 }
 
 class LearningDashboardApp extends StatelessWidget {
-  final bool isLoggedIn;
   final AuthLocalDataSource authDataSource;
 
   const LearningDashboardApp({
     super.key,
-    required this.isLoggedIn,
     required this.authDataSource,
   });
 
@@ -59,9 +55,13 @@ class LearningDashboardApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Learning Dashboard',
-  home: isLoggedIn
-    ? const DashboardPage()
-    : LoginPage(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF4F46E5),
+        ),
+        useMaterial3: true,
+      ),
+      home: SplashPage(
         authDataSource: authDataSource,
       ),
     );

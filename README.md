@@ -1,17 +1,45 @@
-# learning_dashboard
+# Learning Dashboard
 
-A new Flutter project.
+A Flutter-based Learning Dashboard application built as part of the Senior Mobile App Developer technical assignment.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Email and password login with validation
+- Login loading and error states
+- Persistent login session
+- Course dashboard with:
+  - Course name
+  - Instructor
+  - Progress percentage
+  - Lesson count
+  - Continue Learning
+- Course details with lesson list
+- Mark lessons as completed
+- Automatic course progress calculation
+- Loading, empty, and error states
+- Offline course data using local caching
+- Course progress persists after app restart
+- Logout functionality
+- Unit testing for course progress calculation
 
-A few resources to get you started if this is your first Flutter project:
+## Demo Credentials
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+Use the following credentials to access the application:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Email:** Test@gmail.com
+- **Password:** Test123
+
+## Architecture
+
+The application follows a simple layered architecture:
+
+```text
+UI / Pages
+    ↓
+Controllers
+    ↓
+Repository
+    ↓
+Data Sources
+    ├── Local JSON
+    └── Local Cache

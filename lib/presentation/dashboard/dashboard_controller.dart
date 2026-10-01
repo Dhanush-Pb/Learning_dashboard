@@ -52,21 +52,20 @@ class DashboardController extends GetxController {
     }
   }
 
-  Future<void> updateCourse(
-    CourseModel updatedCourse,
-  ) async {
-    final index = courses.indexWhere(
-      (course) => course.id == updatedCourse.id,
-    );
+ Future<void> updateCourse(
+  CourseModel updatedCourse,
+) async {
+  final index = courses.indexWhere(
+    (course) => course.id == updatedCourse.id,
+  );
 
-    if (index == -1) {
-      return;
-    }
-
-    // Update the course on the dashboard.
-    courses[index] = updatedCourse;
-
-    // Save the updated course to local cache.
-    await repository.updateCourse(updatedCourse);
+  if (index == -1) {
+    return;
   }
+
+  courses[index] = updatedCourse;
+  courses.refresh();
+
+  await repository.updateCourse(updatedCourse);
+}
 }

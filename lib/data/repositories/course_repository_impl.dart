@@ -15,19 +15,33 @@ class CourseRepositoryImpl implements CourseRepository {
 
   @override
   Future<List<CourseModel>> getCourses() async {
-    try {
-      final courses = await localDataSource.getCoursesFromJson();
+    // First check local cache
+    final cachedCourses =
+        await cacheDataSource.getCachedCourses();
 
+    // If cache exists, use it
+    if (cachedCourses.isNotEmpty) {
+      return cachedCourses;
+    }
+
+    // No cache exists, load initial data
+    try {
+      final courses =
+          await localDataSource.getCoursesFromJson();
+
+      // Save initial data to cache
       await cacheDataSource.saveCourses(courses);
 
       return courses;
     } catch (e) {
-      return await cacheDataSource.getCachedCourses();
+      return [];
     }
   }
 
   @override
-  Future<void> updateCourse(CourseModel course) async {
+  Future<void> updateCourse(
+    CourseModel course,
+  ) async {
     final cachedCourses =
         await cacheDataSource.getCachedCourses();
 

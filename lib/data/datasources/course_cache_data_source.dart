@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,33 +11,36 @@ class CourseCacheDataSource {
   CourseCacheDataSource(this.prefs);
 
   static const String _cacheKey = 'cached_courses';
+Future<void> saveCourses(List<CourseModel> courses) async {
+  final coursesJson = courses
+      .map((course) => course.toJson())
+      .toList();
 
-  Future<void> saveCourses(List<CourseModel> courses) async {
-    final coursesJson = courses
-        .map((course) => course.toJson())
-        .toList();
+  log('SAVING COURSES: $coursesJson');
 
-    await prefs.setString(
-      _cacheKey,
-      jsonEncode(coursesJson),
-    );
+  await prefs.setString(
+    _cacheKey,
+    jsonEncode(coursesJson),
+  );
+}
+
+Future<List<CourseModel>> getCachedCourses() async {
+  final cachedData = prefs.getString(_cacheKey);
+
+  log('READING CACHE: $cachedData');
+
+  if (cachedData == null) {
+    return [];
   }
 
-  Future<List<CourseModel>> getCachedCourses() async {
-    final cachedData = prefs.getString(_cacheKey);
+  final List<dynamic> jsonData = jsonDecode(cachedData);
 
-    if (cachedData == null) {
-      return [];
-    }
-
-    final List<dynamic> jsonData = jsonDecode(cachedData);
-
-    return jsonData
-        .map(
-          (json) => CourseModel.fromJson(
-            json as Map<String, dynamic>,
-          ),
-        )
-        .toList();
-  }
+  return jsonData
+      .map(
+        (json) => CourseModel.fromJson(
+          json as Map<String, dynamic>,
+        ),
+      )
+      .toList();
+}
 }
