@@ -6,9 +6,7 @@ import '../../data/models/lesson_model.dart';
 class CourseDetailsController extends GetxController {
   final CourseModel course;
 
-  CourseDetailsController({
-    required this.course,
-  });
+  CourseDetailsController({required this.course});
 
   final RxList<LessonModel> lessons = <LessonModel>[].obs;
 
@@ -22,9 +20,7 @@ class CourseDetailsController extends GetxController {
   void toggleLesson(int index) {
     final lesson = lessons[index];
 
-    lessons[index] = lesson.copyWith(
-      isCompleted: !lesson.isCompleted,
-    );
+    lessons[index] = lesson.copyWith(isCompleted: !lesson.isCompleted);
   }
 
   int get progress {
@@ -32,15 +28,14 @@ class CourseDetailsController extends GetxController {
       return 0;
     }
 
-    final completedLessons =
-        lessons.where((lesson) => lesson.isCompleted).length;
+    final completedLessons = lessons
+        .where((lesson) => lesson.isCompleted)
+        .length;
 
     return ((completedLessons / lessons.length) * 100).round();
   }
 
   CourseModel get updatedCourse {
-    return course.copyWith(
-      lessons: lessons.toList(),
-    );
+    return course.copyWith(lessons: lessons.toList());
   }
 }
