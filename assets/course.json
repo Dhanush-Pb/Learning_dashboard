@@ -1,0 +1,83 @@
+[
+  {
+    "id": 1,
+    "title": "Python Programming",
+    "instructor": "John Smith",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "Introduction",
+        "isCompleted": true
+      },
+      {
+        "id": 2,
+        "title": "Variables & Data Types",
+        "isCompleted": true
+      },
+      {
+        "id": 3,
+        "title": "Functions",
+        "isCompleted": false
+      },
+      {
+        "id": 4,
+        "title": "Object Oriented Programming",
+        "isCompleted": false
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Generative AI",
+    "instructor": "Sarah Williams",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "Introduction to Generative AI",
+        "isCompleted": true
+      },
+      {
+        "id": 2,
+        "title": "Prompt Engineering",
+        "isCompleted": false
+      },
+      {
+        "id": 3,
+        "title": "AI Models",
+        "isCompleted": false
+      },
+      {
+        "id": 4,
+        "title": "Building AI Applications",
+        "isCompleted": false
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Full Stack Development",
+    "instructor": "David Brown",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "HTML & CSS",
+        "isCompleted": true
+      },
+      {
+        "id": 2,
+        "title": "JavaScript",
+        "isCompleted": false
+      },
+      {
+        "id": 3,
+        "title": "Backend Development",
+        "isCompleted": false
+      },
+      {
+        "id": 4,
+        "title": "Database",
+        "isCompleted": false
+      }
+    ]
+  }
+]
