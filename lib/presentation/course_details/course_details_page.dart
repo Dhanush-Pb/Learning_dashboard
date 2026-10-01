@@ -26,119 +26,131 @@ class CourseDetailsPage extends StatelessWidget {
       ),
     );
 
-    return Scaffold(
-      backgroundColor: background,
-      body: Obx(
-        () {
-          final progress = controller.progress;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
 
-          return CustomScrollView(
-            slivers: [
-              _buildAppBar(controller),
+        Get.back(
+          result: controller.updatedCourse,
+        );
+      },
+      child: Scaffold(
+        backgroundColor: background,
+        body: Obx(
+          () {
+            final progress = controller.progress;
 
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(
-                  20,
-                  18,
-                  20,
-                  30,
-                ),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      _buildCourseHero(progress),
+            return CustomScrollView(
+              slivers: [
+                _buildAppBar(controller),
 
-                      const SizedBox(height: 28),
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(
+                    20,
+                    18,
+                    20,
+                    30,
+                  ),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        _buildCourseHero(progress),
 
-                      Row(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.end,
-                        children: [
-                          const Expanded(
-                            child: Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Course Lessons',
-                                  style: TextStyle(
-                                    fontSize: 21,
-                                    fontWeight: FontWeight.w800,
-                                    color: textPrimary,
+                        const SizedBox(height: 28),
+
+                        Row(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.end,
+                          children: [
+                            const Expanded(
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Course Lessons',
+                                    style: TextStyle(
+                                      fontSize: 21,
+                                      fontWeight: FontWeight.w800,
+                                      color: textPrimary,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  'Complete each lesson to track your progress.',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: textSecondary,
+                                  SizedBox(height: 4),
+                                  Text(
+                                    'Complete each lesson to track your progress.',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: textSecondary,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Container(
-                            padding:
-                                const EdgeInsets.symmetric(
-                              horizontal: 11,
-                              vertical: 7,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.circular(20),
-                              border: Border.all(
-                                color: border,
+                                ],
                               ),
                             ),
-                            child: Text(
-                              '${controller.lessons.where((lesson) => lesson.isCompleted).length}/${controller.lessons.length}',
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: primary,
+
+                            const SizedBox(width: 10),
+
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(
+                                horizontal: 11,
+                                vertical: 7,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: border,
+                                ),
+                              ),
+                              child: Text(
+                                '${controller.lessons.where((lesson) => lesson.isCompleted).length}/${controller.lessons.length}',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: primary,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
 
-                      const SizedBox(height: 17),
+                        const SizedBox(height: 17),
 
-                      ...List.generate(
-                        controller.lessons.length,
-                        (index) {
-                          final lesson =
-                              controller.lessons[index];
+                        ...List.generate(
+                          controller.lessons.length,
+                          (index) {
+                            final lesson =
+                                controller.lessons[index];
 
-                          return Padding(
-                            padding:
-                                const EdgeInsets.only(
-                              bottom: 11,
-                            ),
-                            child: _buildLessonCard(
-                              index: index,
-                              title: lesson.title,
-                              isCompleted:
-                                  lesson.isCompleted,
-                              onChanged: () {
-                                controller.toggleLesson(
-                                  index,
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.only(
+                                bottom: 11,
+                              ),
+                              child: _buildLessonCard(
+                                index: index,
+                                title: lesson.title,
+                                isCompleted:
+                                    lesson.isCompleted,
+                                onChanged: () {
+                                  controller.toggleLesson(
+                                    index,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -207,11 +219,14 @@ class CourseDetailsPage extends StatelessWidget {
                 width: 58,
                 height: 58,
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(18),
+                  color:
+                      Colors.white.withValues(alpha: 0.15),
+                  borderRadius:
+                      BorderRadius.circular(18),
                   border: Border.all(
-                    color:
-                        Colors.white.withValues(alpha: 0.12),
+                    color: Colors.white.withValues(
+                      alpha: 0.12,
+                    ),
                   ),
                 ),
                 child: const Icon(
@@ -237,7 +252,9 @@ class CourseDetailsPage extends StatelessWidget {
                         height: 1.2,
                       ),
                     ),
+
                     const SizedBox(height: 6),
+
                     Row(
                       children: [
                         const Icon(
@@ -249,7 +266,8 @@ class CourseDetailsPage extends StatelessWidget {
                         Expanded(
                           child: Text(
                             course.instructor,
-                            overflow: TextOverflow.ellipsis,
+                            overflow:
+                                TextOverflow.ellipsis,
                             style: const TextStyle(
                               color: Colors.white70,
                               fontSize: 12,
@@ -292,7 +310,8 @@ class CourseDetailsPage extends StatelessWidget {
           const SizedBox(height: 9),
 
           ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius:
+                BorderRadius.circular(20),
             child: LinearProgressIndicator(
               value: progress / 100,
               minHeight: 9,
@@ -313,7 +332,9 @@ class CourseDetailsPage extends StatelessWidget {
                 Icons.play_lesson_outlined,
                 '${course.lessonCount} Lessons',
               ),
+
               const SizedBox(width: 18),
+
               _buildHeroInfo(
                 Icons.check_circle_outline_rounded,
                 '${course.lessons.where((lesson) => lesson.isCompleted).length} Completed',
@@ -364,7 +385,8 @@ class CourseDetailsPage extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(18),
+            borderRadius:
+                BorderRadius.circular(18),
             border: Border.all(
               color: isCompleted
                   ? const Color(0xFFD4EDDD)
@@ -372,7 +394,9 @@ class CourseDetailsPage extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.025),
+                color: Colors.black.withValues(
+                  alpha: 0.025,
+                ),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -397,10 +421,12 @@ class CourseDetailsPage extends StatelessWidget {
                       )
                     : Text(
                         '${index + 1}',
-                        textAlign: TextAlign.center,
+                        textAlign:
+                            TextAlign.center,
                         style: const TextStyle(
                           fontSize: 13,
-                          fontWeight: FontWeight.w700,
+                          fontWeight:
+                              FontWeight.w700,
                           color: textSecondary,
                         ),
                       ),
@@ -417,38 +443,53 @@ class CourseDetailsPage extends StatelessWidget {
                       title,
                       style: TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w700,
+                        fontWeight:
+                            FontWeight.w700,
                         color: isCompleted
-                            ? const Color(0xFF59606C)
+                            ? const Color(
+                                0xFF59606C,
+                              )
                             : textPrimary,
                         height: 1.3,
                         decoration: isCompleted
-                            ? TextDecoration.lineThrough
+                            ? TextDecoration
+                                .lineThrough
                             : TextDecoration.none,
                       ),
                     ),
+
                     const SizedBox(height: 5),
+
                     Row(
                       children: [
                         Icon(
                           isCompleted
-                              ? Icons.check_circle_outline
-                              : Icons.play_circle_outline,
+                              ? Icons
+                                  .check_circle_outline
+                              : Icons
+                                  .play_circle_outline,
                           size: 14,
                           color: isCompleted
-                              ? const Color(0xFF16834A)
+                              ? const Color(
+                                  0xFF16834A,
+                                )
                               : textSecondary,
                         ),
+
                         const SizedBox(width: 5),
+
                         Text(
                           isCompleted
                               ? 'Completed'
                               : 'Ready to learn',
                           style: TextStyle(
                             fontSize: 11,
-                            fontWeight: FontWeight.w500,
+                            fontWeight:
+                                FontWeight.w500,
                             color: isCompleted
-                                ? const Color(0xFF16834A)
+                                ? const Color(
+                                    0xFF16834A,
+                                  )
                                 : textSecondary,
                           ),
                         ),
@@ -469,7 +510,8 @@ class CourseDetailsPage extends StatelessWidget {
                   width: 1.5,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius:
+                      BorderRadius.circular(6),
                 ),
               ),
             ],
